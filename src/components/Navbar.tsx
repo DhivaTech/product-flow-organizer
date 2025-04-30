@@ -19,8 +19,6 @@ const Navbar = () => {
         </div>
         
         <div className="flex items-center gap-4">
-          <span className="text-sm text-slate-300">TypeScript In-Memory System</span>
-          
           {isAuthenticated ? (
             <div className="flex items-center gap-4">
               <span className="text-sm bg-slate-700 px-3 py-1 rounded-full">

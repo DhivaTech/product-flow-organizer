@@ -8,9 +8,10 @@ interface ProductStore {
   lowStockThreshold: number;
   addProduct: (product: Product) => void;
   updateProductQuantity: (id: string, newQuantity: number) => boolean;
+  updateProduct: (id: string, updatedProduct: Partial<Product>) => boolean;
   deleteProduct: (id: string) => void;
   setSearchTerm: (term: string) => void;
-  isProductIdUnique: (id: string) => boolean;
+  isProductIdUnique: (id: string, excludeId?: string) => boolean;
 }
 
 export const useProductStore = create<ProductStore>((set, get) => ({
@@ -46,6 +47,22 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     
     return true;
   },
+
+  updateProduct: (id: string, updatedProduct: Partial<Product>) => {
+    const product = get().products.find(p => p.id === id);
+    
+    if (!product) {
+      return false;
+    }
+    
+    set((state) => ({
+      products: state.products.map(p => 
+        p.id === id ? { ...p, ...updatedProduct } : p
+      )
+    }));
+    
+    return true;
+  },
   
   deleteProduct: (id: string) =>
     set((state) => ({
@@ -55,6 +72,6 @@ export const useProductStore = create<ProductStore>((set, get) => ({
   setSearchTerm: (term: string) =>
     set({ searchTerm: term }),
     
-  isProductIdUnique: (id: string) =>
-    !get().products.some(p => p.id === id)
+  isProductIdUnique: (id: string, excludeId?: string) =>
+    !get().products.some(p => p.id === id && p.id !== excludeId)
 }));
