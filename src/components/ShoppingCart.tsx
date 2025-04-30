@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useCartStore } from '../store/cartStore';
-import { Trash2, ShoppingCart } from 'lucide-react';
+import { Trash2, ShoppingCart as CartIcon } from 'lucide-react';
 
 const ShoppingCart = () => {
   const { items, removeFromCart, updateQuantity, clearCart, getTotal } = useCartStore();
@@ -23,7 +23,7 @@ const ShoppingCart = () => {
     <Card className="shadow-md">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <ShoppingCart className="h-5 w-5" />
+          <CartIcon className="h-5 w-5" />
           <span>Your Cart</span>
         </CardTitle>
       </CardHeader>
