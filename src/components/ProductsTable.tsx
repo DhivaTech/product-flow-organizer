@@ -5,13 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, ArrowDown, ArrowUp, Search, Trash2 } from "lucide-react";
+import { AlertTriangle, ArrowDown, ArrowUp, Search, Trash2, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useProductStore } from '../store/productStore';
+import { useCartStore } from '../store/cartStore';
+import { useAuth } from '../context/AuthContext';
 
 const ProductsTable = () => {
   const { toast } = useToast();
   const { products, searchTerm, setSearchTerm, updateProductQuantity, deleteProduct, lowStockThreshold } = useProductStore();
+  const { addToCart } = useCartStore();
+  const { user } = useAuth();
   
   const [sortField, setSortField] = useState<keyof (typeof products)[0]>('id');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -71,6 +75,13 @@ const ProductsTable = () => {
       });
     }
   };
+
+  // Handle add to cart
+  const handleAddToCart = (product: (typeof products)[0]) => {
+    addToCart(product, 1);
+  };
+
+  const isCustomer = user?.role === 'customer';
 
   return (
     <Card className="shadow-md">
@@ -137,27 +148,40 @@ const ProductsTable = () => {
                     <TableCell className="text-right">${product.price.toFixed(2)}</TableCell>
                     <TableCell>
                       <div className="flex items-center justify-center space-x-2">
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => handleQuantityChange(product.id, -1)}
-                        >
-                          -
-                        </Button>
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => handleQuantityChange(product.id, 1)}
-                        >
-                          +
-                        </Button>
-                        <Button 
-                          size="sm" 
-                          variant="destructive"
-                          onClick={() => handleDelete(product.id, product.name)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        {isCustomer ? (
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            disabled={product.quantity <= 0}
+                            onClick={() => handleAddToCart(product)}
+                          >
+                            <Plus className="h-4 w-4 mr-1" /> Cart
+                          </Button>
+                        ) : (
+                          <>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleQuantityChange(product.id, -1)}
+                            >
+                              -
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleQuantityChange(product.id, 1)}
+                            >
+                              +
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="destructive"
+                              onClick={() => handleDelete(product.id, product.name)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>
