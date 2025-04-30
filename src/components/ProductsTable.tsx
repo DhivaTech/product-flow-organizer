@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -6,29 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, ArrowDown, ArrowUp, Search, Trash2, Plus, Edit, Save, X } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useProductStore } from '../store/productStore';
 import { useCartStore } from '../store/cartStore';
 import { useAuth } from '../context/AuthContext';
-
-// Product images mapping
-const productImages = {
-  'Laptop': 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9',
-  'Smartphone': 'https://images.unsplash.com/photo-1582562124811-c09040d0a901',
-  'Headphones': 'https://images.unsplash.com/photo-1493962853295-0fd70327578a',
-  'Monitor': 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9',
-  'Keyboard': 'https://images.unsplash.com/photo-1582562124811-c09040d0a901',
-  'Mouse': 'https://images.unsplash.com/photo-1493962853295-0fd70327578a',
-  'Tablet': 'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1',
-  'Default': 'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1',
-};
-
-const getProductImage = (productName) => {
-  return productImages[productName] || productImages['Default'];
-};
+import { getProductImage } from '../utils/productImages';
 
 const ProductsTable = () => {
-  const { toast } = useToast();
   const { products, searchTerm, setSearchTerm, updateProductQuantity, deleteProduct, lowStockThreshold, addProduct } = useProductStore();
   const { addToCart } = useCartStore();
   const { user } = useAuth();
@@ -76,8 +59,7 @@ const ProductsTable = () => {
       addProduct(updatedProduct);
       setEditingProduct(null);
       
-      toast({
-        title: "Product Updated",
+      toast.success("Product Updated", {
         description: `${updatedProduct.name} has been updated successfully.`
       });
     }
@@ -120,21 +102,16 @@ const ProductsTable = () => {
     const result = updateProductQuantity(id, newQuantity);
     
     if (!result) {
-      toast({
-        title: "Error",
-        description: "Quantity cannot be negative",
-        variant: "destructive",
-      });
+      toast.error("Quantity cannot be negative");
     }
   };
 
   // Handle delete
   const handleDelete = (id, name) => {
-    if (confirm(`Are you sure you want to delete "${name}"?`)) {
+    if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
       deleteProduct(id);
-      toast({
-        title: "Product Deleted",
-        description: `${name} has been removed from inventory`,
+      toast.success("Product Deleted", {
+        description: `${name} has been removed from inventory`
       });
     }
   };
@@ -142,9 +119,8 @@ const ProductsTable = () => {
   // Handle add to cart
   const handleAddToCart = (product) => {
     addToCart(product, 1);
-    toast({
-      title: "Added to Cart",
-      description: `${product.name} has been added to your cart.`,
+    toast.success("Added to Cart", {
+      description: `${product.name} has been added to your cart.`
     });
   };
 

@@ -5,37 +5,29 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useCartStore } from '../store/cartStore';
 import { Trash2, ShoppingCart as CartIcon } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-
-// Product images mapping (same as in ProductsTable)
-const productImages = {
-  'Laptop': 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9',
-  'Smartphone': 'https://images.unsplash.com/photo-1582562124811-c09040d0a901',
-  'Headphones': 'https://images.unsplash.com/photo-1493962853295-0fd70327578a',
-  'Monitor': 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9',
-  'Keyboard': 'https://images.unsplash.com/photo-1582562124811-c09040d0a901',
-  'Mouse': 'https://images.unsplash.com/photo-1493962853295-0fd70327578a',
-  'Tablet': 'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1',
-  'Default': 'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1',
-};
-
-const getProductImage = (productName) => {
-  return productImages[productName] || productImages['Default'];
-};
+import { toast } from "sonner";
+import { useAuth } from '../context/AuthContext';
+import { usePurchaseStore } from '../store/purchaseStore';
+import { getProductImage } from '../utils/productImages';
 
 const ShoppingCart = () => {
   const { items, removeFromCart, updateQuantity, clearCart, getTotal } = useCartStore();
-  const { toast } = useToast();
+  const { user } = useAuth();
+  const { addPurchase } = usePurchaseStore();
   
   const handleCheckout = () => {
     if (items.length === 0) {
       return;
     }
     
-    // For demo purposes, just clear cart and show success message
+    // Record the purchase in purchase history
+    if (user) {
+      addPurchase(user.email, user.id, items);
+    }
+    
+    // Clear cart and show success message
     clearCart();
-    toast({
-      title: "Order Placed Successfully!",
+    toast.success("Order Placed Successfully!", {
       description: "Thank you for your purchase. Your order has been placed."
     });
   };
@@ -67,7 +59,7 @@ const ShoppingCart = () => {
                 <TableRow key={item.productId}>
                   <TableCell>
                     <img 
-                      src={getProductImage(item.productName)} 
+                      src={getProductImage(item.productName)}
                       alt={item.productName}
                       className="w-12 h-12 object-cover rounded-md"
                     />
