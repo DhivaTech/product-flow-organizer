@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -67,7 +68,8 @@ const ProductsTable = () => {
       const updatedProduct = {
         id: editedValues.id,
         name: editedValues.name,
-        price: parseFloat(editedValues.price),
+        // Convert the price to a number before adding
+        price: Number(editedValues.price),
         quantity: originalProduct.quantity
       };
       
@@ -244,7 +246,7 @@ const ProductsTable = () => {
                         <Input 
                           type="number"
                           value={editedValues.price}
-                          onChange={(e) => setEditedValues({...editedValues, price: e.target.value})}
+                          onChange={(e) => setEditedValues({...editedValues, price: Number(e.target.value)})}
                           className="w-24 text-right ml-auto"
                         />
                       ) : (
