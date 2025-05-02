@@ -36,11 +36,23 @@ const CustomerWelcome = () => {
     return "Good evening";
   };
   
+  // Get display name - either the user's actual name or the part before @ in email
+  const getDisplayName = () => {
+    if (!user) return '';
+    
+    // Use name if available, otherwise extract from email
+    if (user.name) {
+      return user.name;
+    } else {
+      return user.email.split('@')[0];
+    }
+  };
+  
   return (
     <div className="space-y-6">
       <Card className="shadow-sm bg-blue-50">
         <CardContent className="pt-6">
-          <h2 className="text-2xl font-bold text-blue-800">{greeting()}, {user?.name}!</h2>
+          <h2 className="text-2xl font-bold text-blue-800">{greeting()}, {getDisplayName()}!</h2>
           <p className="text-blue-600 mt-2">Welcome to our online store. We hope you find everything you need today.</p>
         </CardContent>
       </Card>

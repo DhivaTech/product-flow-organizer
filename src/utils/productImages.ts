@@ -9,14 +9,14 @@ const productImageMap: Record<string, string> = {
   'smartphone': 'https://images.unsplash.com/photo-1598327105666-5b89351aff97',
   'Headphones': 'https://images.unsplash.com/photo-1546435770-a3e426bf472b',
   'headphones': 'https://images.unsplash.com/photo-1546435770-a3e426bf472b',
-  'Monitor': 'https://images.unsplash.com/photo-15862729890133-81dae3cf6031',
-  'monitor': 'https://images.unsplash.com/photo-15862729890133-81dae3cf6031',
+  'Monitor': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6',
+  'monitor': 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6',
   'Keyboard': 'https://images.unsplash.com/photo-1587829741301-dc798b83add3',
   'keyboard': 'https://images.unsplash.com/photo-1587829741301-dc798b83add3',
   'Mouse': 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7',
   'mouse': 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7',
-  'Tablet': 'https://images.unsplash.com/photo-1544602301-d9a5e2616cc7',
-  'tablet': 'https://images.unsplash.com/photo-1544602301-d9a5e2616cc7',
+  'Tablet': 'https://images.unsplash.com/photo-1473091534298-04dcbce3278c',
+  'tablet': 'https://images.unsplash.com/photo-1473091534298-04dcbce3278c',
 };
 
 // Generate initials for products without specific images

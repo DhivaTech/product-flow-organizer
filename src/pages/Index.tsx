@@ -8,6 +8,7 @@ import LowStockAlert from '../components/LowStockAlert';
 import ShoppingCart from '../components/ShoppingCart';
 import PurchaseHistory from '../components/PurchaseHistory';
 import CustomerWelcome from '../components/CustomerWelcome';
+import PrintInventory from '../components/PrintInventory';
 import { useAuth } from '../context/AuthContext';
 import { initializeCart } from '../store/cartStore';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -50,8 +51,9 @@ const Index = () => {
                     <LowStockAlert />
                   </div>
                 </div>
-                <div>
+                <div className="space-y-6">
                   <AddProductForm />
+                  <PrintInventory />
                 </div>
               </div>
             </TabsContent>
