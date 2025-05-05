@@ -30,11 +30,11 @@ const Navbar = () => {
               <Button 
                 variant="outline" 
                 size="sm"
-                className="text-white border-white hover:text-slate-800"
+                className="text-white border-white hover:text-slate-800 flex items-center"
                 onClick={logout}
               >
-                <LogOut size={16} className="mr-1" />
-                <span className="hidden md:inline">Logout</span>
+                <LogOut size={16} className="mr-2" />
+                <span>Logout</span>
               </Button>
             </div>
           ) : (
@@ -42,22 +42,23 @@ const Navbar = () => {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="text-white border-white hover:text-slate-800"
+                className="text-white border-white hover:text-slate-800 flex items-center"
                 asChild
               >
                 <Link to="/auth">
-                  <LogIn size={16} className="mr-1" />
-                  <span className="hidden md:inline">Login</span>
+                  <LogIn size={16} className="mr-2" />
+                  <span>Login</span>
                 </Link>
               </Button>
               <Button 
                 variant="default" 
                 size="sm"
+                className="flex items-center"
                 asChild
               >
                 <Link to="/auth?tab=signup">
-                  <UserPlus size={16} className="mr-1" />
-                  <span className="hidden md:inline">Sign Up</span>
+                  <UserPlus size={16} className="mr-2" />
+                  <span>Sign Up</span>
                 </Link>
               </Button>
             </div>
